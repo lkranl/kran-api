@@ -37,23 +37,3 @@ jobs:
           DB_PORT=${{ secrets.DB_PORT }}
           DB_HOST=${{ secrets.DB_HOST }}
           DB_DRIVER=${{ secrets.DB_DRIVER }}
-
-    - name: Run Django management commands
-      env:
-        DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_DRIVER: ${{ secrets.DB_DRIVER }}
-      run: |
-        python manage.py collectstatic --noinput
-        python manage.py migrate
-    
-    - name: Deploy to Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .
